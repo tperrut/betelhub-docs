@@ -11,68 +11,25 @@ usam o prefixo `/api/...` (não configure `context-path`).
 - Health check: `GET http://localhost:8081/actuator/health`
 - Erros seguem o formato `ProblemDetail` (RFC 7807).
 
-## Endpoints implementados
+:::tip[API por tela]
+Cada tela tem sua própria página de **API** no submenu lateral. Use os atalhos abaixo.
+:::
 
-### Membros
+## Membros
 
-| Método | Rota | Descrição |
-|---|---|---|
-| `POST` | `/api/membros` | Cadastra membro |
-| `GET` | `/api/membros` | Lista membros |
-| `GET` | `/api/membros/{id}` | Detalha membro |
-| `PUT` | `/api/membros/{id}` | Atualiza membro |
-| `PATCH` | `/api/membros/{id}/status` | Altera status |
-| `GET` | `/api/igreja/dashboard` | Dashboard da igreja |
+- [Dashboard da igreja](./modulos/membros/api/dashboard-igreja.md)
+- [Listagem de membros](./modulos/membros/api/listagem.md)
+- [Cadastro e edição](./modulos/membros/api/cadastro-edicao.md)
 
-### EBD — Turmas
+## Escola Dominical (EBD)
 
-| Método | Rota |
-|---|---|
-| `POST` | `/api/escola-dominical/turmas` |
-| `GET` | `/api/escola-dominical/turmas` |
-| `PATCH` | `/api/escola-dominical/turmas/{id}/status` |
-| `GET` | `/api/escola-dominical/turmas/{id}/alunos` |
-| `POST` | `/api/escola-dominical/turmas/{id}/professores` |
-| `DELETE` | `/api/escola-dominical/turmas/{id}/professores/{professorId}` |
-
-### EBD — Professores
-
-| Método | Rota |
-|---|---|
-| `POST` | `/api/escola-dominical/professores` |
-| `GET` | `/api/escola-dominical/professores` |
-| `PATCH` | `/api/escola-dominical/professores/{id}/status` |
-
-### EBD — Matrículas
-
-| Método | Rota |
-|---|---|
-| `POST` | `/api/escola-dominical/matriculas` |
-| `GET` | `/api/escola-dominical/matriculas?turmaId={turmaId}` |
-| `PATCH` | `/api/escola-dominical/matriculas/{id}/status` |
-
-### EBD — Aulas e presenças
-
-| Método | Rota |
-|---|---|
-| `POST` | `/api/escola-dominical/aulas` |
-| `GET` | `/api/escola-dominical/aulas?turmaId={turmaId}` |
-| `GET` | `/api/escola-dominical/aulas/{id}` |
-| `PATCH` | `/api/escola-dominical/aulas/{id}/status` |
-| `GET` | `/api/escola-dominical/aulas/{id}/chamada` |
-| `PUT` | `/api/escola-dominical/aulas/{id}/chamada` |
-| `PUT` | `/api/escola-dominical/aulas/{id}/presencas` |
-| `POST` | `/api/escola-dominical/aulas/{id}/presencas` |
-| `PATCH` | `/api/escola-dominical/aulas/{id}/presencas/{presencaId}` |
-| `DELETE` | `/api/escola-dominical/aulas/{id}/presencas/{presencaId}` |
-
-### EBD — Dashboard e relatórios
-
-| Método | Rota |
-|---|---|
-| `GET` | `/api/escola-dominical/dashboard?periodo=MENSAL&dataReferencia=2026-11-08` |
-| `GET` | `/api/escola-dominical/relatorios/{tipo}.csv?turmaId=&dataInicio=&dataFim=` |
-| `GET` | `/api/escola-dominical/relatorios/{tipo}.pdf?turmaId=&dataInicio=&dataFim=` |
+- [Dashboard EBD](./modulos/escola-dominical/api/dashboard.md)
+- [Turmas](./modulos/escola-dominical/api/turmas.md)
+- [Professores](./modulos/escola-dominical/api/professores.md)
+- [Alunos e matrículas](./modulos/escola-dominical/api/alunos.md)
+- [Chamada e presenças](./modulos/escola-dominical/api/chamada.md)
+- [Aulas](./modulos/escola-dominical/api/aulas.md)
+- [Relatórios](./modulos/escola-dominical/api/relatorios.md)
 
 ## Collections HTTP (Bruno)
 

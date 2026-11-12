@@ -50,32 +50,9 @@ Entidades filhas (um-para-muitos, substituídas por completo na atualização):
 - Atualizações de recepções e familiares **substituem a lista inteira**.
 - Alteração de status é feita por operação dedicada (`PATCH /status`).
 
-## API
-
-| Método | Rota | Descrição |
-|---|---|---|
-| `POST` | `/api/membros` | Cadastra um membro |
-| `GET` | `/api/membros` | Lista membros (resumo) |
-| `GET` | `/api/membros/{id}` | Detalha um membro |
-| `PUT` | `/api/membros/{id}` | Atualiza os dados do membro |
-| `PATCH` | `/api/membros/{id}/status` | Altera o status |
-| `GET` | `/api/igreja/dashboard` | Totais de membros + aniversariantes do mês |
-
-Exemplo de cadastro:
-
-```json
-{
-  "nome": "Maria da Silva",
-  "sexo": "FEMININO",
-  "dataNascimento": "1990-05-20",
-  "email": "maria@exemplo.com",
-  "telefoneCelular": "11999998888",
-  "estadoCivil": "CASADO",
-  "endereco": { "cidade": "São Paulo", "uf": "SP" },
-  "recepcoes": [{ "tipo": "BATISMO", "data": "2010-03-14" }],
-  "familiares": [{ "tipo": "CONJUGE", "nome": "João da Silva" }]
-}
-```
+:::tip[API por tela]
+Cada tela deste módulo tem sua própria página de **API** no submenu lateral.
+:::
 
 ## Telas
 

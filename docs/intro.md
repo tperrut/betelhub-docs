@@ -40,6 +40,7 @@ pacotes no backend, mas **ainda não têm implementação funcional**. Consulte
 ## Por onde começar
 
 - [Arquitetura](./arquitetura.md) — como o monorepo e os módulos estão organizados.
+- [DDD](./ddd/intro.md) — como o domínio é modelado por módulo.
 - [Módulo Membros](./modulos/membros/visao-geral.md) — cadastro completo de membros.
 - [Módulo Escola Dominical](./modulos/escola-dominical/visao-geral.md) — o fluxo do piloto EBD.
 - [API REST](./api.md) — endpoints expostos hoje.

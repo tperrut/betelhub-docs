@@ -23,7 +23,10 @@ const config: Config = {
 
   markdown: {
     format: 'mdx',
+    mermaid: true,
   },
+
+  themes: ['@docusaurus/theme-mermaid'],
 
   i18n: {
     defaultLocale: 'pt-BR',

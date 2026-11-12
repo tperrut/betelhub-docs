@@ -20,7 +20,6 @@ betelhub/
 ├─ collections/       # Collections HTTP (Bruno)
 ├─ docs/              # ADRs, DDD, diagramas C4, design system
 ├─ infra/             # Caddy e Terraform (Hostinger)
-├─ website/           # Esta documentação (Docusaurus)
 └─ docker-compose.yml # Ambiente local
 ```
 
@@ -72,6 +71,216 @@ PostgreSQL 17 com migrações versionadas via **Flyway**:
 | `V3__modelo_ebd_completo.sql` | Modelo EBD completo |
 | `V4__create_membros.sql` | Tabela de membros |
 | `V5__membro_cadastro_completo.sql` | Campos do cadastro completo |
+
+## Modelo de dados
+
+Diagrama de entidades e relacionamentos das tabelas implementadas (Membros e EBD).
+
+```mermaid
+erDiagram
+    MEMBRO {
+        uuid id PK
+        string nome
+        string status
+        date data_nascimento
+    }
+    RECEPCAO {
+        uuid id PK
+        uuid membro_id FK
+        string tipo
+        date data
+        string numero_rol
+    }
+    FAMILIAR {
+        uuid id PK
+        uuid membro_id FK
+        string tipo
+        string nome
+    }
+    ENDERECO {
+        string logradouro
+        string cidade
+        string uf
+    }
+    PROFESSOR {
+        uuid id PK
+        string nome
+        uuid membro_id FK
+        string status
+    }
+    TURMA {
+        uuid id PK
+        string nome
+        string faixa_etaria
+        string status
+    }
+    TURMA_PROFESSOR {
+        uuid turma_id FK
+        uuid professor_id FK
+        string papel
+    }
+    MATRICULA {
+        uuid id PK
+        uuid membro_id FK
+        uuid turma_id FK
+        string status
+        date data_matricula
+    }
+    AULA {
+        uuid id PK
+        uuid turma_id FK
+        date data
+        string tema
+        string revista
+        string capitulo
+        numeric oferta_pix
+        numeric oferta_dinheiro
+        string status
+    }
+    AULA_PROFESSOR {
+        uuid aula_id FK
+        uuid professor_id FK
+        string papel
+    }
+    PRESENCA {
+        uuid id PK
+        uuid aula_id FK
+        uuid membro_id FK
+        string visitante_nome
+        boolean presente
+    }
+
+    MEMBRO ||--o{ RECEPCAO : possui
+    MEMBRO ||--o{ FAMILIAR : possui
+    MEMBRO ||--|| ENDERECO : tem
+    MEMBRO ||--o{ MATRICULA : "aluno em"
+    MEMBRO |o--o{ PROFESSOR : "pode ser"
+    TURMA ||--o{ MATRICULA : tem
+    TURMA ||--o{ TURMA_PROFESSOR : tem
+    PROFESSOR ||--o{ TURMA_PROFESSOR : leciona
+    TURMA ||--o{ AULA : realiza
+    AULA ||--o{ AULA_PROFESSOR : tem
+    PROFESSOR ||--o{ AULA_PROFESSOR : ministra
+    AULA ||--o{ PRESENCA : registra
+    MEMBRO |o--o{ PRESENCA : "presente em"
+```
+
+:::note
+`Endereco` é `@Embeddable` (colunas `endereco_*` na tabela `membros`), não uma tabela própria.
+Em `presencas_ebd`, exatamente uma coluna entre `membro_id` e `visitante_nome` é preenchida (`CHECK`).
+:::
+
+### Classes — Membros
+
+```mermaid
+classDiagram
+    class Membro {
+      +UUID id
+      +String nome
+      +StatusMembro status
+      +LocalDate dataNascimento
+      +String email
+      +String telefoneCelular
+      +EstadoCivil estadoCivil
+      +GrauInstrucao grauInstrucao
+      +substituirRecepcoes()
+      +substituirFamiliares()
+    }
+    class Recepcao {
+      +UUID id
+      +TipoRecepcao tipo
+      +LocalDate data
+      +String numeroRol
+      +String igrejaOrigem
+    }
+    class Familiar {
+      +UUID id
+      +TipoFamiliar tipo
+      +String nome
+      +LocalDate dataNascimento
+    }
+    class Endereco {
+      <<embeddable>>
+      +String logradouro
+      +String cidade
+      +String uf
+    }
+    Membro "1" o-- "0..*" Recepcao
+    Membro "1" o-- "0..*" Familiar
+    Membro *-- Endereco
+```
+
+### Classes — Escola Dominical (EBD)
+
+```mermaid
+classDiagram
+    class Turma {
+      +UUID id
+      +String nome
+      +String faixaEtaria
+      +StatusTurma status
+    }
+    class Professor {
+      +UUID id
+      +String nome
+      +UUID membroId
+      +StatusProfessor status
+    }
+    class Matricula {
+      +UUID id
+      +UUID membroId
+      +UUID turmaId
+      +StatusMatricula status
+      +LocalDate dataMatricula
+    }
+    class Aula {
+      +UUID id
+      +UUID turmaId
+      +LocalDate data
+      +ConteudoAula conteudo
+      +Oferta oferta
+      +StatusAula status
+    }
+    class ConteudoAula {
+      <<record>>
+      +String tema
+      +String revista
+      +String capitulo
+    }
+    class Oferta {
+      <<record>>
+      +BigDecimal pix
+      +BigDecimal dinheiro
+      +total() BigDecimal
+    }
+    class Presenca {
+      <<record>>
+      +UUID id
+      +Participante participante
+      +boolean presente
+    }
+    class Participante {
+      <<sealed>>
+    }
+    class MembroParticipante {
+      <<record>>
+      +UUID membroId
+      +String nome
+    }
+    class VisitanteParticipante {
+      <<record>>
+      +String nome
+    }
+    Turma "1" --> "0..*" Matricula
+    Turma "1" --> "0..*" Aula
+    Professor "0..*" --> "0..*" Turma : leciona
+    Aula "1" *-- "1" ConteudoAula
+    Aula "1" *-- "1" Oferta
+    Aula "1" *-- "0..*" Presenca
+    Presenca --> Participante
+    Participante <|.. MembroParticipante
+    Participante <|.. VisitanteParticipante
+```
 
 ## Frontend
 

@@ -1,0 +1,31 @@
+/**
+ * Tema da documentação do Betelhub.
+ * Verde profundo (tema "Betel") como cor principal.
+ */
+
+:root {
+  --ifm-color-primary: #1f6b4f;
+  --ifm-color-primary-dark: #1c6047;
+  --ifm-color-primary-darker: #1a5b43;
+  --ifm-color-primary-darkest: #154b37;
+  --ifm-color-primary-light: #227657;
+  --ifm-color-primary-lighter: #247b5b;
+  --ifm-color-primary-lightest: #298b66;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #4fbf92;
+  --ifm-color-primary-dark: #3eb485;
+  --ifm-color-primary-darker: #3aa97d;
+  --ifm-color-primary-darkest: #2f8b67;
+  --ifm-color-primary-light: #63c79f;
+  --ifm-color-primary-lighter: #6dcba5;
+  --ifm-color-primary-lightest: #90d8ba;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+.navbar__title {
+  font-weight: 700;
+}

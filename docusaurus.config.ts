@@ -33,14 +33,26 @@ const config: Config = {
     locales: ['pt-BR'],
   },
 
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'tecnico',
+        path: 'docs/tecnico',
+        routeBasePath: 'tecnico',
+        sidebarPath: './sidebars-tecnico.ts',
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
       {
-        // Site somente de documentação: os docs ficam na raiz.
         docs: {
-          routeBasePath: '/',
-          sidebarPath: './sidebars.ts',
+          path: 'docs/negocio',
+          routeBasePath: 'negocio',
+          sidebarPath: './sidebars-negocio.ts',
         },
         blog: false,
         theme: {
@@ -62,6 +74,19 @@ const config: Config = {
       },
       items: [
         {
+          type: 'docSidebar',
+          sidebarId: 'negocioSidebar',
+          position: 'left',
+          label: 'Negócio',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'tecnicoSidebar',
+          docsPluginId: 'tecnico',
+          position: 'left',
+          label: 'Técnico',
+        },
+        {
           href: 'https://github.com/tperrut/betelhub',
           label: 'GitHub',
           position: 'right',
@@ -72,19 +97,21 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Documentação',
+          title: 'Negócio',
           items: [
-            {label: 'Visão geral', to: '/'},
-            {label: 'Arquitetura', to: '/arquitetura'},
-            {label: 'Como rodar localmente', to: '/rodando-local'},
+            {label: 'Visão geral', to: '/negocio'},
+            {label: 'Membros', to: '/negocio/modulos/membros/visao-geral'},
+            {label: 'Escola Dominical', to: '/negocio/modulos/escola-dominical/visao-geral'},
+            {label: 'Glossário', to: '/negocio/glossario'},
           ],
         },
         {
-          title: 'Referência',
+          title: 'Técnico',
           items: [
-            {label: 'Módulo Membros', to: '/modulos/membros/visao-geral'},
-            {label: 'Módulo EBD', to: '/modulos/escola-dominical/visao-geral'},
-            {label: 'API REST', to: '/api'},
+            {label: 'Arquitetura', to: '/tecnico/arquitetura'},
+            {label: 'DDD', to: '/tecnico/ddd/intro'},
+            {label: 'API REST', to: '/tecnico/api'},
+            {label: 'Rodar localmente', to: '/tecnico/operacao/rodando-local'},
           ],
         },
         {
